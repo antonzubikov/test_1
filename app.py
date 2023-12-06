@@ -43,8 +43,8 @@ def insert_data():  # функция для записи данных в баз�
                 "x_avg_count_in_line": x_avg_count_in_line
             }
 
-    c.execute("INSERT INTO data VALUES (?, ?, ?, ?)",
-              (data["datetime"], data["title"], data["text"], data["x_avg_count_in_line"]))
+            c.execute("INSERT INTO data VALUES (?, ?, ?, ?)",
+                      (data["datetime"], data["title"], data["text"], data["x_avg_count_in_line"]))
     conn.commit()
     conn.close()
 
@@ -66,6 +66,7 @@ def send_to_rabbitmq():  # функция для отправки данных �
                 "x_avg_count_in_line": x_avg_count_in_line
             }
             channel.basic_publish(exchange='', routing_key='data_queue', body=str(data))
+            time.sleep(3)
     connection.close()
 
 
